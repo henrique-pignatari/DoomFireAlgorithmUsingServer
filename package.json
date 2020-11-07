@@ -1,0 +1,12 @@
+{
+  "name": "doom-fire",
+  "version": "1.0.0",
+  "description": "Program inspired by the youtube chanel Filipe Deschamps. This program is being used as a test and application of concepts of js and node",
+  "main": "server/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Henrique Pignatari",
+  "license": "ISC"
+}
