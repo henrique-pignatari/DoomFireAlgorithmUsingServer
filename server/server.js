@@ -5,6 +5,8 @@ var express = require('express')
     ,http = require('http')
     ,socketio = require('socket.io');
 
+const fireControler = require("./controlers/fireControler")
+
 app.set('clientPath', path.join(__dirname, '../client'));
 app.use(express.static(app.get('clientPath')));
 app.use(bodyParser.json());
@@ -30,9 +32,15 @@ sockets.on('connection', (socket) => {
     const connectionId = socket.id;
     console.log(`> Connected with id: ${connectionId}`);
 
-    socket.on('emit',(msg)=>{
-        console.log(msg)
+    const sendTableInterval = setInterval(()=>{
+        socket.emit('renderFire',fireControler.createFireTable())
+    },50)
+    
+    socket.on('disconnect', ()=>{
+        clearInterval(sendTableInterval);
     })
+
+    socket.on('changefireStrength',value => fireControler.changefireStrength(value))
 })
 
 server.listen(3000, function(){
