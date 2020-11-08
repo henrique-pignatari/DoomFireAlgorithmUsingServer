@@ -5,6 +5,13 @@ const fireCollorsPalette = [{"r":7,"g":7,"b":7},{"r":31,"g":7,"b":7},{"r":47,"g"
 let fireStrength = 3;
 let fireIntensityArray = [];
 
+const socket = io();
+
+socket.on('connect', ()=>{
+    const id = socket.id;
+    console.log(`Concectado com o id: ${id}`)
+})
+
 document.querySelectorAll("button").forEach(element => element.addEventListener("click", changefireStrength))
 
 function createFireDataStructure(){
@@ -78,6 +85,15 @@ function renderFire(){
 
     fireCanvas.innerHTML = htmlText;
 }
+function start(){
+    createFireDataStructure();
+    createFireSource();
+    renderFire()
+
+    setInterval(calculateFirePropagation,50)
+}
+
+start()
 
 function changefireStrength(event){
     const value = event.target.value;
@@ -95,15 +111,7 @@ function changefireStrength(event){
     }else if(value === "-"){
         fireStrength += (fireStrength+changeValue) <= minFireStrength ? changeValue : 0;
         console.log(fireStrength)
+    }else if(value == "emit"){
+        socket.emit(value,"Essa e a mensagem vinda do client");
     }
 }
-
-function start(){
-    createFireDataStructure();
-    createFireSource();
-    renderFire()
-
-    setInterval(calculateFirePropagation,50)
-}
-
-start()
